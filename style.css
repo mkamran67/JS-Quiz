@@ -35,7 +35,7 @@ nav a:hover {
 }
 
 /* Main container */
-.centered-container {
+#centered-container {
   width: 100%;
   position: absolute;
   top: 50px;
@@ -76,6 +76,11 @@ nav a:hover {
   border: 1px solid rgba(0, 0, 0, 0.19);
   border-radius: 3px;
   padding: 0.4rem;
+  transition: background 300ms;
+}
+
+.card ul li:hover {
+  background-color: #333333;
 }
 
 .card ul li:last-child {
@@ -86,12 +91,17 @@ nav a:hover {
   font-size: 1.2rem;
   text-decoration: none;
   color: #000;
-  transition: all 300ms;
+  transition: color 200ms;
   line-height: 1.4rem;
 }
 
 .card ul li a:hover {
   color: #d1c4e9;
+}
+
+#lineThrough {
+  line-height: 0;
+  letter-spacing: 4rem;
 }
 
 /* Button */

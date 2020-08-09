@@ -7,8 +7,8 @@
 //  Answers : [Array], // If empty then it's true or false question then index 0 || 1
 //  CorrectAnswerIndex: #
 // }
-
-const quiz = [
+// 10 questions (objects) with respective answers
+const quizArray = [
   {
     question: 'Inside which HTML element do we put the JavaScript?',
     answers: ['<script>', '<js>', '<scripting>', '<javascript>'],
@@ -70,4 +70,142 @@ const quiz = [
     answers: [],
     correctAnswerIndex: 1,
   },
+  {
+    question: 'Is JavaScript an OOP (Object Oriented Programming) language?',
+    answers: [],
+    correctAnswerIndex: 0,
+  },
 ];
+
+let highScores = [
+  { name: 'AK', score: 22 },
+  { name: 'BK', score: 32 },
+  { name: 'CK', score: 42 },
+  { name: 'DK', score: 52 },
+  { name: 'EK', score: 62 },
+  { name: 'FK', score: 72 },
+];
+
+function loadHighScore() {
+  $('#question').text('High Scores | Leader Boards');
+
+  // List High Scores --> If not empty list else output "empty"
+  if (highScores.length > 0) {
+    // if normal view is up hide it.
+    // $('#centered-container').toggle(``); // Delete Main Section
+
+    // Reset board
+    $('#answersList').html('');
+
+    //iterate through highScores and Append
+    highScores.forEach((element, index) => {
+      $('#answersList').append(
+        `<li id="highScore${index}"> Name: ${element.name} &nbsp&nbsp&nbsp&nbsp&nbsp Score: ${element.score}</li>`
+      );
+    });
+
+    // Change Start btn to back btn
+    $('#startBtn').text('Go Back');
+  }
+}
+
+function resetToDefault() {
+  // Reset Header
+  $('#question').text('Welcome to your JS Quiz.');
+
+  // Delete List reload Quiz
+  $('#answersList').empty();
+
+  // Reset Button
+  $('#startBtn').text('Start');
+}
+function clearTimer() {
+  clearInterval();
+}
+
+let timer = 60;
+let myIntervalTimer;
+let hasTime = true;
+
+function myTimer() {
+  myIntervalTimer = setInterval(() => {
+    if (timer < 0) {
+      hasTime = false;
+      clearInterval(myIntervalTimer);
+    }
+
+    // console.log(`${timer}`);
+    $('#timer').text(`${timer}`);
+    timer--;
+  }, 1000);
+}
+
+function answerListeners() {
+  $('#answersList ul li a').on('click', (e) => {
+    console.log(e);
+    console.log(`clicked`);
+  });
+}
+
+function loadQuestion(query) {
+  $('#question').text(`${query}`);
+}
+
+function checkAnswer(text) {}
+
+function loadAnswers(answers) {
+  answers.forEach((element, index) => {
+    $('#answersList').append(
+      `<li><a href="#" id="index${index}">${element}</a></li>`
+    );
+
+    // Dynamic Create a listener
+    $(`#index${index}`).on('click', () => {
+      checkAnswer($(`#index${index}`).text());
+    });
+  });
+}
+
+function loadQuiz() {
+  console.log(`Loaded Quiz`);
+  // 0 - 9 = 10
+  let queryLimit = quizArray.length - 1;
+
+  // Load question
+  // console.log(quizArray[queryLimit].question);
+  loadQuestion(quizArray[queryLimit].question);
+
+  // Check if True or False
+  if (
+    quizArray[queryLimit].answers.length === 0 ||
+    quizArray[queryLimit].answers.length === null ||
+    quizArray[queryLimit].answers.length === undefined
+  ) {
+    loadAnswers(['1. True ', '2. False']);
+  } else {
+    loadAnswers(quizArray[queryLimit].answers);
+  }
+  // Start Timer
+  myTimer();
+}
+
+function controllerFunction(e) {
+  e.preventDefault();
+
+  // If Back Button
+  if ($('#startBtn').text() !== 'Start') {
+    resetToDefault();
+  } else {
+    // Start Quiz
+    loadQuiz();
+  }
+}
+function listeners() {
+  // View HighScore
+  $('nav a').on('click', loadHighScore);
+
+  // Button Actions
+  $('#startBtn').on('click', controllerFunction);
+}
+
+$('document').ready(listeners);
