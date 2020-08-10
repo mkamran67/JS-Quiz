@@ -212,10 +212,21 @@ function checkAnswer(e) {
     if (id === currentCorrectAnswer) {
       // Correct ✔
       // console.log(`Correct`, id, currentCorrectAnswer);
+      $('.card').removeClass('incorrect-shadow');
+      $('.card').toggleClass('correct-shadow');
+      setTimeout(() => {
+        $('.card').toggleClass('correct-shadow');
+      }, 1000);
       currentScore++;
     } else {
       // Incorrect ❌
       // console.log(`Incorrect`, id, currentCorrectAnswer);
+      $('.card').removeClass('correct-shadow');
+      $('.card').toggleClass('incorrect-shadow');
+      setTimeout(() => {
+        $('.card').toggleClass('incorrect-shadow');
+      }, 1000);
+
       // Subtract Timer (10 seconds) ⏳
       quizTimer -= 10;
       $('#qTimer').css('color', 'red');

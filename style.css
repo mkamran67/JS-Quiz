@@ -47,6 +47,7 @@ button:hover {
 
 /* Card */
 .card {
+  z-index: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -54,6 +55,15 @@ button:hover {
   /* border: 1px solid rgba(0, 0, 0, 0.2); */
   min-width: 60%;
   margin: auto;
+  transform: border 300ms ease-in;
+}
+
+.correct-shadow {
+  border: 2px solid green !important;
+}
+
+.incorrect-shadow {
+  border: 2px solid red !important;
 }
 
 /* Question -- Header */
