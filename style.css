@@ -1,120 +1,113 @@
+/* Reset */
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Lato', sans-serif;
   font-size: 16px;
+  font-family: 'Lato', Arial, Helvetica, sans-serif;
 }
 
+/* Main - Container */
+.container {
+  display: flex;
+  flex-direction: column;
+}
+/* ---------------------------------------------- TOP */
+/* Navigation Bar */
 nav {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
   display: flex;
   justify-content: space-between;
-  padding: 0.5rem;
-  line-height: 1rem;
-  letter-spacing: 0.1rem;
-}
-
-nav p {
-  margin-right: 1rem;
-}
-nav a {
-  text-decoration: none;
-  transition: all 300ms;
-}
-nav a:hover::after {
-  content: '👆';
-  position: relative;
-  top: 110%;
-  left: -50%;
-}
-nav a:hover {
-  color: blueviolet;
-}
-
-/* Main container */
-#centered-container {
-  width: 100%;
-  position: absolute;
-  top: 50px;
-  left: 0;
-  display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
-  grid-template-rows: 1fr;
-  justify-content: center;
-}
-
-/* Main Column */
-.card {
-  text-align: center;
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 10px 16px 0px,
-    rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;
-}
-
-/* Question || Main Header*/
-.card p {
-  font-size: 1.6rem;
-  margin: 2rem auto;
-  max-width: 90%;
-}
-
-/* List || Answers */
-.card ul {
-  display: flex;
-  justify-content: space-around;
   align-items: center;
-  flex-direction: column;
-  text-align: start;
-  font-size: 0.8rem;
 }
 
-.card ul li {
-  list-style: none;
-  margin: 0.3rem;
-  border: 1px solid rgba(0, 0, 0, 0.19);
-  border-radius: 3px;
-  padding: 0.4rem;
-  transition: background 300ms;
-}
-
-.card ul li:hover {
-  background-color: #333333;
-}
-
-.card ul li:last-child {
-  margin-bottom: 0.8rem;
-}
-
-.card ul li a {
+/* Timer */
+nav p,
+nav span {
   font-size: 1.2rem;
-  text-decoration: none;
-  color: #000;
-  transition: color 200ms;
-  line-height: 1.4rem;
+}
+nav p {
+  margin-right: 1.5rem;
 }
 
-.card ul li a:hover {
-  color: #d1c4e9;
-}
-
-#lineThrough {
-  line-height: 0;
-  letter-spacing: 4rem;
-}
-
-/* Button */
-.card button {
-  padding: 0.5rem 4rem;
-  margin: 1rem;
-  margin-bottom: 2rem;
+/* General Button Styles */
+button {
+  padding: 10px 20px;
+  margin: 10px;
   border-radius: 5px;
-  border: none;
-  transition: all 300ms;
+  outline: none;
+  background: none;
+  border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-.card button:hover {
-  background-color: #d1c4e9;
+button:hover {
+  border: 1px solid #000;
   cursor: pointer;
+}
+/* ---------------------------------------------- MIDDLE */
+
+/* Card */
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px solid rgba(0, 0, 0, 0.2); */
+  min-width: 60%;
+  margin: auto;
+}
+
+/* Question -- Header */
+.card p {
+  font-size: 2rem;
+  padding: 10px;
+  margin: 20px auto;
+  text-align: center;
+}
+
+/* Answers -> List */
+ul {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  margin: 10px 0;
+}
+
+/* Scores List */
+ul p {
+  font-size: 0.8rem;
+  display: inline;
+}
+
+/* END Quiz */
+input {
+  font-size: 1.5rem;
+  padding: 10px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* ---------------------------------------------- BOTTOm */
+.btn-main button {
+  padding: 0.5rem 4rem;
+  font-size: 2rem;
+}
+@media screen and (max-width: 992px) {
+  .card {
+    margin-top: 2rem;
+    width: 80%;
+  }
+}
+
+/* On screens that are 600px or less, set the background color to olive */
+@media screen and (max-width: 600px) {
+  * {
+    font-size: 14px;
+  }
+
+  .card {
+    width: 95%;
+  }
 }

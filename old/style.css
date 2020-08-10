@@ -1,0 +1,154 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Lato', sans-serif;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+/* Main Navigation */
+nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem;
+  line-height: 1rem;
+  letter-spacing: 0.1rem;
+}
+
+/* Timer */
+nav p {
+  padding: 1rem;
+  margin-bottom: 0.3rem;
+  margin-right: 1rem;
+}
+
+/* View High Score */
+nav a {
+  text-decoration: none;
+  transition: all 300ms;
+  border-radius: 3px;
+
+  padding: 1rem;
+  margin-bottom: 0.3rem;
+}
+
+nav a:hover {
+  color: #80bfff;
+  background-color: #001f3f;
+}
+
+/* Main container */
+#centered-container {
+  width: 100%;
+  min-height: 70%;
+  position: absolute;
+  top: 75px;
+  left: 0;
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-rows: 1fr;
+  justify-content: center;
+}
+
+/* Main Column */
+.card {
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 10px 16px 0px,
+    rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;
+  display: flex;
+  flex-flow: nowrap column;
+  justify-content: space-between;
+  align-content: space-around;
+}
+
+/* Question || Main Header*/
+/* TOP */
+.card p {
+  font-size: 1.6rem;
+  margin: 2rem auto;
+  min-width: 90%;
+  text-align: center;
+}
+
+/* List || Answers */
+/* MIDDLE */
+.card ul {
+  display: flex;
+  flex-flow: nowrap column;
+  justify-content: space-evenly;
+  align-items: center;
+  align-content: center;
+  min-height: 60%;
+}
+/* List Items */
+.card ul li {
+  list-style: none;
+}
+
+.card ul li a {
+  border: 1px solid rgba(0, 0, 0, 0.19);
+  border-radius: 3px;
+  font-size: 1.5rem;
+  text-decoration: none;
+  padding: 0.6rem 1.2rem;
+  margin: 1rem;
+  transition: all 300ms;
+}
+.card ul li a:hover {
+  color: #80bfff;
+  background-color: #001f3f;
+}
+
+/* BOTTOM */
+.bottom {
+  align-self: center;
+}
+/* Button */
+button {
+  padding: 0.5rem 4rem;
+  margin: 1rem;
+  margin-bottom: 2rem;
+  border-radius: 5px;
+  border: none;
+  transition: all 300ms;
+}
+
+#startBtn:hover {
+  background-color: #d1c4e9;
+  cursor: pointer;
+}
+
+.correct {
+  color: green;
+  background-color: #ffffff;
+  text-transform: uppercase;
+}
+
+.correct:hover {
+  cursor: default;
+}
+
+.incorrect {
+  color: red;
+  background-color: #ffffff;
+  text-transform: uppercase;
+}
+
+.incorrect:hover {
+  cursor: default;
+}
+
+input {
+  padding: 0.5rem;
+  font-size: 1.6rem;
+}
+
+.opaZero {
+  opacity: 0;
+}
+.opaZero:hover {
+  cursor: default !important;
+}

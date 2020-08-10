@@ -1,43 +1,29 @@
-// Note -> Some questions were taken from w3schools.
-// Query/Questions/Answers Structure
-// Array
-// Object {}
-// {
-//  Question : 'String',
-//  Answers : [Array], // If empty then it's true or false question then index 0 || 1
-//  CorrectAnswerIndex: #
-// }
-// 10 questions (objects) with respective answers
+/* ---------------------- DATA */
 const quizArray = [
   {
-    question: 'Inside which HTML element do we put the JavaScript?',
-    answers: ['<script>', '<js>', '<scripting>', '<javascript>'],
+    question:
+      'Can you have an object within an object within an array within another object in JS?',
+    answers: [],
     correctAnswerIndex: 0,
   },
   {
-    question:
-      'Is the following correct JS syntax to change the contents of an HTML element?\n <p id="demo">This is a demonstration.</p> \n document.getElementById("demo").innerHTML = "Hello World!"',
+    question: 'Does JavaScript have lexical scope?',
     answers: [],
     correctAnswerIndex: 0,
   },
   {
     question: 'Where is the correct place to insert a JavaScript?',
     answers: [
-      'Both the <head> section and the <body> section are correct',
-      'The <body> section',
-      'The <head> section',
+      `Both the "head" section and the "body" section are correct`,
+      `The "body" section`,
+      `The "head" section`,
     ],
     correctAnswerIndex: 0,
   },
   {
-    question:
-      'What is the correct syntax for referring to an external script called "xxx.js"?',
-    answers: [
-      '<script name="xxx.js">',
-      '<script src="xxx.js">',
-      '<script href="xxx.js">',
-    ],
-    correctAnswerIndex: 1,
+    question: 'Is JavaScript able to run games?',
+    answers: [],
+    correctAnswerIndex: 0,
   },
   {
     question: 'The external JavaScript file must contain the <script> tag.',
@@ -60,10 +46,9 @@ const quizArray = [
     correctAnswerIndex: 3,
   },
   {
-    question:
-      'What will the following code output?\n\n true ? console.log(5) : console.log(10) ',
+    question: 'What will the following code output?  5 += 5; ',
     answers: [' 5 ', ' 10 ', 'None of the above'],
-    correctAnswerIndex: 0,
+    correctAnswerIndex: 1,
   },
   {
     question: 'Is Jquery part of JavaScript?',
@@ -77,135 +62,201 @@ const quizArray = [
   },
 ];
 
+// Later -> Limit to TOP 3
 let highScores = [
-  { name: 'AK', score: 22 },
-  { name: 'BK', score: 32 },
-  { name: 'CK', score: 42 },
-  { name: 'DK', score: 52 },
-  { name: 'EK', score: 62 },
-  { name: 'FK', score: 72 },
+  { name: 'AK', score: 2 },
+  { name: 'BK', score: 2 },
+  { name: 'CK', score: 4 },
 ];
 
-function loadHighScore() {
-  $('#question').text('High Scores | Leader Boards');
+//  1. On click of View High Scores Load() High Scores
+//  2. On START -> Load First Question
 
-  // List High Scores --> If not empty list else output "empty"
-  if (highScores.length > 0) {
-    // if normal view is up hide it.
-    // $('#centered-container').toggle(``); // Delete Main Section
+// ↙ Logical Steps ↘
+// Question -> Next Question on Selection & Check If Correct
+// IF Correct TIMER++ && SCORE++
+// IF !nextQuestion -> Finish || IF BOOL=false -> Bool = Timer
+// END QUIZ -> Display Form with Input
 
-    // Reset board
-    $('#answersList').html('');
+// QUESTIONS <-> List
+// 🛑 ON Dynamic Listing Create Listeners <- Bad Performance
+// -> Better to listen on Click events on the UL e.target <-
+// QueryLength-- && checkAnswers(e.target.value)
+// -> load() Question
 
-    //iterate through highScores and Append
-    highScores.forEach((element, index) => {
-      $('#answersList').append(
-        `<li id="highScore${index}"> Name: ${element.name} &nbsp&nbsp&nbsp&nbsp&nbsp Score: ${element.score}</li>`
-      );
-    });
+/* ---------------------- Variables */
+let quizCounter = quizArray.length - 1;
+let currentCorrectAnswer = null;
+let currentScore = 0;
+let quizTimer = 60;
 
-    // Change Start btn to back btn
-    $('#startBtn').text('Go Back');
-  }
-}
+/* ---------------------- Listeners */
+$('document').ready(() => {
+  $('#scores').on('click', showScores);
+  $('#starter').on('click', controlFunction);
+  $('ul').on('click', checkAnswer);
+});
 
-function resetToDefault() {
-  // Reset Header
-  $('#question').text('Welcome to your JS Quiz.');
-
-  // Delete List reload Quiz
-  $('#answersList').empty();
-
-  // Reset Button
-  $('#startBtn').text('Start');
-}
-function clearTimer() {
-  clearInterval();
-}
-
-let timer = 60;
-let myIntervalTimer;
-let hasTime = true;
-
-function myTimer() {
-  myIntervalTimer = setInterval(() => {
-    if (timer < 0) {
-      hasTime = false;
-      clearInterval(myIntervalTimer);
+function timer() {
+  // Set Interval to check every second if timer has expired
+  let tempTimer = setInterval(() => {
+    // Check to see if Timer has expired
+    if (quizTimer <= 0) {
+      // if Expired
+      endGame(); // -> End Quiz
+      clearInterval(tempTimer); // End interVal
+    } else {
+      // Update timer
+      $('#qTimer').text(`${quizTimer}`);
+      quizTimer--;
     }
-
-    // console.log(`${timer}`);
-    $('#timer').text(`${timer}`);
-    timer--;
   }, 1000);
 }
 
-function answerListeners() {
-  $('#answersList ul li a').on('click', (e) => {
-    console.log(e);
-    console.log(`clicked`);
-  });
-}
-
-function loadQuestion(query) {
-  $('#question').text(`${query}`);
-}
-
-function checkAnswer(text) {}
-
-function loadAnswers(answers) {
-  answers.forEach((element, index) => {
-    $('#answersList').append(
-      `<li><a href="#" id="index${index}">${element}</a></li>`
-    );
-
-    // Dynamic Create a listener
-    $(`#index${index}`).on('click', () => {
-      checkAnswer($(`#index${index}`).text());
-    });
-  });
-}
-
-function loadQuiz() {
-  console.log(`Loaded Quiz`);
-  // 0 - 9 = 10
-  let queryLimit = quizArray.length - 1;
-
-  // Load question
-  // console.log(quizArray[queryLimit].question);
-  loadQuestion(quizArray[queryLimit].question);
-
-  // Check if True or False
-  if (
-    quizArray[queryLimit].answers.length === 0 ||
-    quizArray[queryLimit].answers.length === null ||
-    quizArray[queryLimit].answers.length === undefined
-  ) {
-    loadAnswers(['1. True ', '2. False']);
-  } else {
-    loadAnswers(quizArray[queryLimit].answers);
-  }
-  // Start Timer
-  myTimer();
-}
-
-function controllerFunction(e) {
-  e.preventDefault();
-
-  // If Back Button
-  if ($('#startBtn').text() !== 'Start') {
-    resetToDefault();
-  } else {
+function controlFunction() {
+  // Check What the button text is, to determine action. 🧈
+  if ($('#starter').text() === 'Start Quiz') {
     // Start Quiz
-    loadQuiz();
+    loadQuestion();
+    // Start Timer
+    timer();
+  } else {
+    // End Quiz -> Submit
+    // Check if Input is empty or space(s)
+    if ($('#finInput').val() === '') {
+      alert('Please input valid initials');
+    } else {
+      // Create temp Obj to hold current Initials & Score
+      let tempObj = {
+        name: $('#finInput').val().toUpperCase(),
+        score: currentScore,
+      };
+
+      // Push scoreObj to High Scores
+      highScores.push(tempObj);
+
+      // Show Leader board
+      showScores();
+
+      // Reset Variables
+      quizCounter = quizArray.length - 1;
+      currentCorrectAnswer = null;
+      currentScore = 0;
+      quizTimer = 60;
+    }
   }
 }
-function listeners() {
-  // View HighScore
-  $('nav a').on('click', loadHighScore);
 
-  // Button Actions
-  $('#startBtn').on('click', controllerFunction);
+function loadQuestion() {
+  // Check if any questions left -> Counter
+  // if Less END GAME else Load Question
+  if (quizCounter < 0 || quizTimer <= 0) {
+    endGame();
+  } else {
+    // Change Header <- Question
+    $('#question').text(`${quizArray[quizCounter].question}`);
+    // Empty List
+    $('.answers').empty();
+    // Populate List -> Loop through Answers && Determine T||F
+
+    if (quizArray[quizCounter].answers.length > 0) {
+      // Populate multiple choice questions 🌓🌛🌗🌜⁉
+      quizArray[quizCounter].answers.forEach((element, index) => {
+        $('.answers').append(`
+        <li>
+            <button id="${index}">${element}</button>
+        </li>`);
+      });
+    } else {
+      // Since it's a True or False Question 🌓
+      $('.answers').append(`
+        <li>
+            <button id="0">True</button>
+        </li>
+        <li>
+            <button id="1">False</button>
+        </li>`);
+    } // END -> Else
+
+    // Disable Start Button
+    $('#starter').hide();
+
+    // Load Correct Answer
+    currentCorrectAnswer = quizArray[quizCounter].correctAnswerIndex;
+
+    // Lastly Decrement Query List (array) Amount with Counter
+    quizCounter--;
+  }
 }
 
-$('document').ready(listeners);
+function checkAnswer(e) {
+  let id = parseInt(e.target.id, 10);
+
+  // Set 4, that's Max Multiple choice questions in the array.
+  if (id <= 4) {
+    // Check for correct answer & load next question
+    if (id === currentCorrectAnswer) {
+      // Correct ✔
+      // console.log(`Correct`, id, currentCorrectAnswer);
+      currentScore++;
+    } else {
+      // Incorrect ❌
+      // console.log(`Incorrect`, id, currentCorrectAnswer);
+      // Subtract Timer (10 seconds) ⏳
+      quizTimer -= 10;
+      $('#qTimer').css('color', 'red');
+      $('#qTimer').css('font-size', '2rem');
+      setTimeout(() => {
+        $('#qTimer').css('color', 'black');
+        $('#qTimer').css('font-size', '1.2rem');
+      }, 1500);
+    }
+
+    // Load Next Question
+    loadQuestion();
+  }
+}
+
+function showScores() {
+  // Change Header
+  $('#question').text(`High Scores`);
+  // Empty List
+  $('.answers').empty();
+  // Populate List
+  highScores.forEach((element) => {
+    $('.answers').append(`
+    <li>
+        <p class="initials">${element.name}</p>
+        <p class="score">${element.score}</p>
+    </li>`);
+  });
+
+  // Reset Button to -> Start Quiz
+  $('#starter').text('Start Quiz');
+}
+
+function endGame() {
+  // Set timer to 0
+  quizTimer = 0;
+
+  // Reset Timer
+  $('#qTimer').text('00');
+
+  // Change Question
+  $('#question').text(`You Scored ${currentScore}/${quizArray.length}`);
+
+  // Empty List 📃
+  $('.answers').empty();
+
+  // Populate Form
+  $('.answers').append(
+    '<input placeholder="Your Initials" id="finInput" type="text" />'
+  );
+
+  // Change & Show Start button into Submit Score
+  $('#starter').text('Submit');
+  $('#starter').show();
+}
+
+// (message, tune -> True for Good 👍 || False for Bad 👎)
+function toaster(msg, tune = true) {}
