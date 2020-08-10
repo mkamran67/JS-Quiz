@@ -63,11 +63,13 @@ const quizArray = [
 ];
 
 // Later -> Limit to TOP 3
-let highScores = [
-  { name: 'AK', score: 2 },
-  { name: 'BK', score: 2 },
-  { name: 'CK', score: 4 },
-];
+// let highScores = [
+//   { name: 'AK', score: 2 },
+//   { name: 'BK', score: 2 },
+//   { name: 'CK', score: 4 },
+// ];
+// An Array of Objects
+let highScores = [];
 
 //  1. On click of View High Scores Load() High Scores
 //  2. On START -> Load First Question
@@ -95,7 +97,16 @@ $('document').ready(() => {
   $('#scores').on('click', showScores);
   $('#starter').on('click', controlFunction);
   $('ul').on('click', checkAnswer);
+  // Get scores on page load 💯
+  if (localStorage.hasOwnProperty('scores')) {
+    highScores = JSON.parse(localStorage.getItem('scores'));
+  }
 });
+
+function updateLocalStorage() {
+  // Save Scores to local Storage
+  localStorage.setItem('scores', JSON.stringify(highScores));
+}
 
 function timer() {
   // Set Interval to check every second if timer has expired
@@ -134,6 +145,9 @@ function controlFunction() {
 
       // Push scoreObj to High Scores
       highScores.push(tempObj);
+
+      // Update LocalStorage
+      updateLocalStorage();
 
       // Show Leader board
       showScores();
